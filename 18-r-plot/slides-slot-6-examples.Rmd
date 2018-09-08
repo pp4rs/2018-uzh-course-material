@@ -1,0 +1,251 @@
+---
+title: "PP4RS | R Module"
+subtitle: "Slot 6 - Examples"
+author: "Dora Simon"
+date: "10.09.2018"
+output:
+  xaringan::moon_reader:
+    yolo: false
+    chakra: remark-latest.min.js
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+library(ggplot2)
+diamonds_df<-as.data.frame(diamonds)
+head(diamonds_df)
+```
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+summary(diamonds_df$carat)
+
+```
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data=diamonds_df)
+```
+
+???
+- opens empty graphics window
+- nothing else happens
+- we only told ggplot what data to use for the plot
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data=diamonds_df) + geom_point(mapping=aes(x=carat, y=price))
+```
+
+???
+- scatter plot for carat and price
+- we added a new layer to our plot
+- geom_point: scatterplot layer
+- mapping: how data are mapped into visual properties
+- always combined with "aes" function (asethetics)
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price, color = clarity))
+```
+
+???
+- added `clarity` option
+- **What does that do?**
+- clarity is a variable from the df
+- For a given weight of the diamond (carat), diamonds with higher clarity are more expensive. 
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price, alpha = clarity))
+```
+
+???
+**what does alpha do?**
+-transparency of the dots with alpha
+
+Other options:
+- size of the dots with size
+- shape of dots with shape
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price, 
+                           color = clarity > 'VS2'))
+```
+
+???
+- Colors are a boolean
+- true if clarity is larger than VS2
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price)) +
+  facet_wrap(~ cut, nrow=2)
+```
+
+???
+- for each value of the cut variable, we get a separate subplot
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price)) +
+  facet_grid(clarity ~ cut)
+```
+
+???
+- for each value of the cut and each value of the clarity variable, we get a separate subplot
+- left of the tilde: rows
+- right of the tilde: columns/plots
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_smooth(mapping = aes(x = carat, y = price))
+```
+
+???
+- fits a smooth line to the data
+
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_smooth(mapping = aes(x = carat, y = price, color=cut))
+```
+
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df, mapping = aes(x = carat, y = price)) +
+  geom_point(size = 0.2, alpha = 0.5) +
+  geom_smooth()
+```
+
+???
+- put two graphs on top of each other
+
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_bar(mapping = aes(x=clarity))
+```
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df, mapping = aes(x=clarity)) +
+  geom_bar()
+```
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), 
+           position = "fill")
+```
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), 
+           position = "dodge")
+```
+
+???
+"dodge" puts bars next to each other instead on top of each other
+
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price)) +
+  coord_trans(x = "log", y = "log")
+```
+
+???
+Usually, cartesian coordinate system
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price, color = clarity)) +
+  labs(title = "Relationship between weight and price of diamonds",
+       x = "Weight in carat",
+       y = "Price in dollars",
+       color = "Clarity")
+```
+
+
+---
+
+# Example
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+ggplot(data = diamonds_df) +
+  geom_point(mapping = aes(x = carat, y = price, color = clarity)) +
+  scale_x_continuous(breaks = seq(0, 5, 0.5)) +
+  scale_color_discrete(labels = seq(1, 8))
+```
