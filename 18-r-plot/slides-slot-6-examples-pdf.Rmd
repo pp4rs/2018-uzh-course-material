@@ -1,20 +1,15 @@
 ---
-title: "PP4RS | R Module"
-subtitle: "Slot 6 - Examples"
+title: "Examples Slot 6"
 author: "Dora Simon"
-date: "10.09.2018"
-output:
-  xaringan::moon_reader:
-    yolo: false
-    chakra: remark-latest.min.js
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
+date: "September 10, 2018"
+output: pdf_document
 ---
 
-# Example
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -22,78 +17,47 @@ diamonds_df<-as.data.frame(diamonds)
 head(diamonds_df)
 ```
 
----
 
-# Example
+
+## Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 summary(diamonds_df$carat)
 
 ```
 
----
+## Example
 
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data=diamonds_df)
 ```
 
-???
-- opens empty graphics window
-- nothing else happens
-- we only told ggplot what data to use for the plot
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data=diamonds_df) + geom_point(mapping=aes(x=carat, y=price))
 ```
 
-???
-- scatter plot for carat and price
-- we added a new layer to our plot
-- geom_point: scatterplot layer
-- mapping: how data are mapped into visual properties
-- always combined with "aes" function (asethetics)
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, color = clarity))
 ```
 
-???
-- added `clarity` option
-- **What does that do?**
-- clarity is a variable from the df
-- For a given weight of the diamond (carat), diamonds with higher clarity are more expensive. 
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, alpha = clarity))
 ```
 
-???
-**what does alpha do?**
--transparency of the dots with alpha
+## Example
 
-Other options:
-- size of the dots with size
-- shape of dots with shape
-
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -101,13 +65,7 @@ ggplot(data = diamonds_df) +
                            color = clarity > 'VS2'))
 ```
 
-???
-- Colors are a boolean
-- true if clarity is larger than VS2
-
----
-
-# Example
+## Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -115,12 +73,8 @@ ggplot(data = diamonds_df) +
   facet_wrap(~ cut, nrow=2)
 ```
 
-???
-- for each value of the cut variable, we get a separate subplot
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -128,37 +82,24 @@ ggplot(data = diamonds_df) +
   facet_grid(clarity ~ cut)
 ```
 
-???
-- for each value of the cut and each value of the clarity variable, we get a separate subplot
-- left of the tilde: rows
-- right of the tilde: columns/plots
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
   geom_smooth(mapping = aes(x = carat, y = price))
 ```
 
-???
-- fits a smooth line to the data
+## Example
 
-
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
   geom_smooth(mapping = aes(x = carat, y = price, color=cut))
 ```
 
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df, mapping = aes(x = carat, y = price)) +
@@ -166,31 +107,23 @@ ggplot(data = diamonds_df, mapping = aes(x = carat, y = price)) +
   geom_smooth()
 ```
 
-???
-- put two graphs on top of each other
+## Example
 
-
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
   geom_bar(mapping = aes(x=clarity))
 ```
 
----
-
-# Example
+## Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df, mapping = aes(x=clarity)) +
   geom_bar()
 ```
 
----
+## Example
 
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -198,9 +131,8 @@ ggplot(data = diamonds_df) +
            position = "fill")
 ```
 
----
+## Example
 
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -208,13 +140,7 @@ ggplot(data = diamonds_df) +
            position = "dodge")
 ```
 
-???
-"dodge" puts bars next to each other instead on top of each other
-
-
----
-
-# Example
+## Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -222,12 +148,8 @@ ggplot(data = diamonds_df) +
   coord_trans(x = "log", y = "log")
 ```
 
-???
-Usually, cartesian coordinate system
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
@@ -238,10 +160,8 @@ ggplot(data = diamonds_df) +
        color = "Clarity")
 ```
 
+## Example
 
----
-
-# Example
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
 ggplot(data = diamonds_df) +
