@@ -1,0 +1,149 @@
+---
+title: "Replication"
+author: "Dora Simon and Julian Langer"
+date: "September 10, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Please note that I have always specified `echo=TRUE` in the chunk options, so that you can see the code. In a real document, you want that option to be false.
+
+
+
+## Loading Libraries
+
+Here, I load all libraries necessary for the project. I set `message = FALSE`, otherwise the document will be spammed by messages from the libraries.
+
+```{r, message = FALSE, echo=TRUE}
+library(AER)      # ivreg command
+library(ivpack)   # robust and clustered standard errors
+library(dplyr)    # data manipulation
+library(ggplot2)  # graphs
+library(tibble)   # nice dataframes
+library(haven)    # dta files
+library(stargazer)# tables
+library(sandwich) # robust se
+library(lmtest)   # for print robust
+```
+
+## Exercise 1 : Graph
+
+### Read in Data
+
+1. Read in `maketable2.dta` from the tidy-data folder
+  - Create factor variables out of `africa`, `asia`and `other`
+  - Only keep the base sample (`baseco==1`)
+  
+```{r}
+ajr_base <- read_dta("./tidy-data/maketable2.dta") %>% 
+  mutate(africa = factor(africa),
+         asia = factor(asia),
+         other = factor(other))  %>% 
+  filter(baseco == 1) 
+
+```  
+  
+
+### Replicate Figure 2
+
+1. Initiate the plot
+  - Average Expropriation Risk is the x axis
+  - Log GDP per Capita is the y axis
+2. Adjust the axis labels
+3. Put a regression line in the graph
+  - you can adjust the color and the size
+4. Add the data points as country names
+  
+```{r}
+ggplot(ajr_base, aes(x = avexpr, y = logpgp95)) + 
+  labs(x = "Average Expropriation Risk 1985-95",
+       y = "Log GDP per Capita, 1995") +
+  geom_smooth(method = "lm", color = "Black", size = 0.5) + 
+  geom_text(aes(label = shortnam), hjust = 0, vjust = 0, size = 3) 
+```
+
+
+## Exercise 2 : IV Regression
+
+### Read in data
+
+1. Read in `maketable4.dta` from the tidy-data folder
+  - Create factor variables out of `rich4`
+  - Keep only the base sample (`baseco==1`)
+  
+```{r}
+ajr_base <- read_dta("./tidy-data/maketable4.dta") %>% 
+  mutate(rich4 = factor(rich4)) %>% 
+  filter(baseco == 1)
+``` 
+
+### Regressions
+
+Do the first two regressions using the `ivreg` command.
+
+```{r}
+iv_1 <- ivreg(logpgp95 ~ avexpr | logem4, data =ajr_base)
+iv_2 <- ivreg(logpgp95 ~ avexpr + lat_abst | logem4  + lat_abst, data =ajr_base)
+
+```
+
+### Standard Errors
+
+
+Compute the robust standard errors using the `robust.se` function. Your standard errors will be in the second column.
+
+
+```{r}
+iv_1_se <- robust.se(iv_1)[,2]
+iv_2_se <- robust.se(iv_2)[,2]
+```
+
+
+### Table
+
+Display the first two regressions as a table. (hint: specify the chunk option `results=asis`)
+  - for viewing the table in .Rmd, specify `type="text"`
+  - for a nice output in the .pdf, specify `type="latex"`
+
+```{r, results = 'asis'}
+stargazer(iv_1, iv_2,  
+          se = list(iv_1_se, iv_2_se),
+          dep.var.labels = "Log GDP in 1995",
+          covariate.labels = c("Expropriation Risk", "Latitude", "Constant"),
+          omit.stat = "ser",
+          title = "Instrumental Variable Results", 
+          type = "latex")
+```  
+
+<!-- This is a comment in the normal text -->
+
+\newpage
+
+## Additionally: Referencing variables
+
+I can also reference variables. For instance, the coefficient on `r names(iv_1$coefficients[2])` has the value `r iv_1$coefficients[2]`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
