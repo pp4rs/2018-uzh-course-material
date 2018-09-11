@@ -2,15 +2,20 @@
 title: "Replication"
 author: "Dora Simon and Julian Langer"
 date: "September 10, 2018"
-output: pdf_document
+output: 
+  pdf_document: 
+    toc: yes #table of content
+bibliography: bibliography.bib #citation keys
+csl: chicago-author-date.csl #citation style
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+In this document, you can find the solutions to the replication exercise of Figure 2 and comlumns 1 and 2 of Table 4 of Acemoglu's settler mortality [paper](http://web.mit.edu/daron/www/colonial8comp.pdf). Solutions are only provided for the `ivreg` command, although it should be possible to replicate the regressions with the more modern `felm` command of the `lfe` package.
 
-Please note that I have always specified `echo=TRUE` in the chunk options, so that you can see the code. In a real document, you want that option to be false.
+Please note that I have always specified `echo=TRUE` in the chunk options, so that you can see the code. In a real document, you want that option to be false. You can adjust more things in your chunk options, e.g. figure size. A cheatsheet can be found [here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf).
 
 
 
@@ -109,7 +114,7 @@ Display the first two regressions as a table. (hint: specify the chunk option `r
   - for viewing the table in .Rmd, specify `type="text"`
   - for a nice output in the .pdf, specify `type="latex"`
 
-```{r, results = 'asis'}
+```{r, results = 'asis', message=FALSE}
 stargazer(iv_1, iv_2,  
           se = list(iv_1_se, iv_2_se),
           dep.var.labels = "Log GDP in 1995",
@@ -127,10 +132,24 @@ stargazer(iv_1, iv_2,
 
 I can also reference variables. For instance, the coefficient on `r names(iv_1$coefficients[2])` has the value `r iv_1$coefficients[2]`.
 
+## Additionally: Latex
+
+I mentioned that markdown also understands Latex. In the text, you can talk about variables like $\beta_1$. This works both inline (as before), as well as for an entire line:
 
 
+$$Y_i = \beta_0 + \beta_1 X_i + u_i$$
+
+The difference is wheter you use one or two dollar signs around your Latex code.
 
 
+## Additionally: Citations
+
+The citations that you know form Latex work as well. For that, you need to specify a bib.tex document with all your citations and a .csl file with your citation style. Other formats are also possible. An example of how a citation looks like is given below. The full reference will be given after the last subtitle. More about citations and their syntax can be found [here](https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html).
+
+Settler mortality is an amazing instrument [@acemoglu]. 
+
+
+### References
 
 
 
