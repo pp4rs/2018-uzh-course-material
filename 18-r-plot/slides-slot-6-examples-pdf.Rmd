@@ -29,21 +29,21 @@ summary(diamonds_df$carat)
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data=diamonds_df)
 ```
 
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data=diamonds_df) + geom_point(mapping=aes(x=carat, y=price))
 ```
 
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, color = clarity))
 ```
@@ -51,7 +51,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, alpha = clarity))
 ```
@@ -59,7 +59,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, 
                            color = clarity > 'VS2'))
@@ -67,7 +67,7 @@ ggplot(data = diamonds_df) +
 
 ## Example
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price)) +
   facet_wrap(~ cut, nrow=2)
@@ -76,7 +76,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price)) +
   facet_grid(clarity ~ cut)
@@ -85,7 +85,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_smooth(mapping = aes(x = carat, y = price))
 ```
@@ -93,7 +93,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_smooth(mapping = aes(x = carat, y = price, color=cut))
 ```
@@ -101,7 +101,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df, mapping = aes(x = carat, y = price)) +
   geom_point(size = 0.2, alpha = 0.5) +
   geom_smooth()
@@ -110,14 +110,14 @@ ggplot(data = diamonds_df, mapping = aes(x = carat, y = price)) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_bar(mapping = aes(x=clarity))
 ```
 
 ## Example
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df, mapping = aes(x=clarity)) +
   geom_bar()
 ```
@@ -125,7 +125,7 @@ ggplot(data = diamonds_df, mapping = aes(x=clarity)) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_bar(mapping = aes(x = cut, fill = clarity), 
            position = "fill")
@@ -134,7 +134,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_bar(mapping = aes(x = cut, fill = clarity), 
            position = "dodge")
@@ -142,7 +142,7 @@ ggplot(data = diamonds_df) +
 
 ## Example
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price)) +
   coord_trans(x = "log", y = "log")
@@ -151,7 +151,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, color = clarity)) +
   labs(title = "Relationship between weight and price of diamonds",
@@ -163,7 +163,7 @@ ggplot(data = diamonds_df) +
 ## Example
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dev='svg'}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, fig.height=4, dpi=200, dev='png'}
 ggplot(data = diamonds_df) +
   geom_point(mapping = aes(x = carat, y = price, color = clarity)) +
   scale_x_continuous(breaks = seq(0, 5, 0.5)) +
