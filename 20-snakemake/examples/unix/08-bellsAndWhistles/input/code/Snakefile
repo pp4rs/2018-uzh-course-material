@@ -1,0 +1,69 @@
+## Workflow: Code
+## Contributors: Ulrich Bergmann & Lachlan Deer 
+## (GitHub: @bergmul, Email: ulrich.bergmann@gmail.com)
+
+
+##############################################
+# misc
+##############################################
+
+
+configfile: "config.yaml"
+
+
+##############################################
+# build rules
+##############################################
+
+
+rule makeGraphs:
+    input:
+        script = config["in_code"]+ "make-graphs.R",
+        data = "output/data/bundled.csv"
+    params:
+        "output/graphs"
+    output:
+        expand("output/graphs/{iGraph}.png", iGraph = GRAPHS)
+    log:
+        "log/make-graphs.log"
+    shell:
+        "{run_R} {input.script} {input.data} {params} > {log} {log_all}"
+
+
+rule mainAnalysis:
+    input:
+        script = "input/code/analysis.R",
+        data = "output/data/bundled.csv"
+    output:
+        results = "output/results/results.rda",
+        table = "output/tables/ols-regression.tex"
+    log:
+        "log/mainAnalysis.log"
+    shell:
+        "{run_R} {input.script} {input.data} {output.results} {output.table} > {log} {log_all}"
+
+
+rule bundleData:
+    input:
+        script = "input/code/bundle-data.R",
+        data = expand("output/data/sessions/{iFile}.csv", iFile = ALLTARGETS)
+    params:
+        "output/data/sessions"
+    output:
+        "output/data/bundled.csv"
+    log:
+        "log/bundleData.log"
+    shell:
+        "{run_R} {input.script} {params} {output} > {log} {log_all}"
+
+
+rule convert2csv:
+    input:
+        script = "input/code/data-cleaning.R",
+        rawData = "input/raw-data/{iFile}.xls"
+    output:
+        "output/data/sessions/{iFile}.csv"
+    log:
+        "log/data-cleaning-{iFile}.log"
+    shell:
+        "{run_R} {input.script} {input.rawData} {output} > {log} {log_all}"

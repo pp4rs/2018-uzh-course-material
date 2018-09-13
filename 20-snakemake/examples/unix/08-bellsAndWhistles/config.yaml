@@ -1,0 +1,8 @@
+in_code: "input/code/"
+in_data: "input/raw-data/"
+in_paper: "input/latex/"
+
+out_data: "output/data/"
+out_grph: "output/graphs/"
+out_tbl: "output/tables/"
+out_res: "output/results/"
