@@ -1,0 +1,42 @@
+## Workflow: Main
+## Contributors: Ulrich Bergmann 
+## (GitHub: @bergmul, Email: ulrich.bergmann@gmail.com)
+
+
+##############################################
+## Misc
+##############################################
+
+
+# Run R with the following options
+# do not save workspace after session
+# do not restore previously saved objects
+# print all information while running the process
+
+run_R = "Rscript --no-save --no-restore --verbose"
+
+
+##############################################
+## Build Rules
+##############################################
+
+
+rule convert2csv:
+    input:
+        script  = "input/code/data-cleaning.R",
+        rawData = "input/raw-data/170531_01.xls"
+    output:
+        "output/data/sessions/170531_01.csv"
+    shell:
+        "{run_R} {input.script} {input.rawData} {output}"
+
+
+##############################################
+## Cleaning Rules
+##############################################
+
+
+rule clean:
+    shell:
+        "find ./output -type f -delete; \
+        rm -fv *.pdf"

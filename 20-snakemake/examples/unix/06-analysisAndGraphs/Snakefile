@@ -1,0 +1,87 @@
+## Workflow: Main
+## Contributors: Ulrich Bergmann 
+## (GitHub: @bergmul, Email: ulrich.bergmann@gmail.com)
+
+
+##############################################
+## Misc
+##############################################
+
+
+# Run R with the following options
+# do not save workspace after session
+# do not restore previously saved objects
+# print all information while running the process
+
+run_R = "Rscript --no-save --no-restore --verbose"
+
+
+##############################################
+## Get all input filenames
+##############################################
+
+
+FILENAMES = glob_wildcards("input/raw-data/{name}.xls").name
+
+GRAPHS = [ "first-stage", "second-stage", "second-stage-grouped", "boxplot"]
+
+
+##############################################
+## Build Rules
+##############################################
+
+
+rule makeGraphs:
+    input:
+        script = "input/code/make-graphs.R",
+        data = "output/data/bundled-data.csv"
+    output:
+        expand("output/graphs/{iGraph}.png", iGraph = GRAPHS)
+    params:
+        "output/graphs"
+    shell:
+        "{run_R} {input.script} {input.data} {params}; rm Rplots.pdf"
+
+
+rule mainAnalysis:
+    input:
+        script = "input/code/analysis.R",
+        data = "output/data/bundled-data.csv"
+    output:
+        results = "output/results/results.rda",
+        table = "output/tables/ols-regression.tex"
+    shell:
+        "{run_R} {input.script} {input.data} {output.results} {output.table}"
+
+
+rule bundleData:
+    input:
+        script = "input/code/bundle-data.R",
+        data = expand("output/data/sessions/{iFile}.csv", iFile = FILENAMES)
+    output:
+        "output/data/bundled-data.csv"
+    params:
+        "output/data/sessions"
+    shell:
+        "{run_R} {input.script} {params} {output}"
+
+
+rule convert2csv:
+    input:
+        script  = "input/code/data-cleaning.R",
+        rawData = "input/raw-data/{iFile}.xls"
+    output:
+        "output/data/sessions/{iFile}.csv"
+    shell:
+        "{run_R} {input.script} {input.rawData} {output}"
+
+
+##############################################
+## Cleaning Rules
+##############################################
+
+
+rule clean:
+    shell:
+        "find ./output -type f -delete; \
+        rm -fv *.pdf"

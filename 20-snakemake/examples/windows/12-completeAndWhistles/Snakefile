@@ -1,0 +1,71 @@
+## Workflow: Main
+## Contributors: Ulrich Bergmann & Lachlan Deer
+## (GitHub: @bergmul, Email: ulrich.bergmann@gmail.com)
+
+##############################################
+# import config
+##############################################
+
+
+configfile: "config.yaml"
+
+
+##############################################
+# subworkflows
+##############################################
+
+subworkflow code:
+    workdir: "."
+    snakefile: config["in_code"] + "Snakefile"
+
+
+##############################################
+# misc
+##############################################
+
+run_R = "Rscript --no-save --no-restore --verbose"
+log_all = "2>&1"
+
+# Input filenames
+TARGETS = ["170531_01", "170531_02", "170601_03"]
+
+ALLTARGETS = glob_wildcards("input\\raw-data\\{name}.xls").name
+
+GRAPHS = ["first-stage", "second-stage", "second-stage-grouped", "boxplot"]
+
+
+##############################################
+# build rules
+##############################################
+
+
+## makePDF:     generate pdf from markdown files
+rule makePDF:
+    input:
+        md = config["in_paper"] + "proposal.md",
+        graphs = code(expand(config["out_grph"] + "{iGraph}.png",
+                            iGraph = GRAPHS)),
+        table = code(config["out_tbl"] + "ols-regression.tex")
+    log:
+        "log\\makePDF.log"
+    output:
+        "Bergmann_Buchs_Deserving_A_Treat.pdf"
+    shell:
+        "pandoc {input.md} -o {output}  > {log} {log_all}"
+
+
+## run_convert2csv: converts and cleans zTree data
+rule run_convert2csv:
+    input:
+        data = expand("output\\data\\sessions\\{iFile}.csv", iFile = ALLTARGETS)
+
+##############################################
+# cleaning rules
+##############################################
+
+
+## clean:       remove outputs
+rule clean:
+    run:
+        shell("powershell.exe -command \" Remove-Item '.\output'  -include *.csv,*.png,*.rda,*.tex -recurse  \" ")
+        shell("powershell.exe -command \" Remove-Item '.'  -include *.pdf  \" ")
